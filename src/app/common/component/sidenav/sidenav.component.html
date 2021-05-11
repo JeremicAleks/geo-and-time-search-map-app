@@ -95,11 +95,12 @@
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="mb-2 mr-sm-2">
-            <mat-label>Favorite food</mat-label>
-            <mat-select [(ngModel)]="geoAndTimeQuery.category" name="food">
-              <mat-option *ngFor="let food of foods" [value]="food.value">
-                {{food.viewValue}}
+          <mat-form-field appearance="legacy" class="mb-2 mr-sm-2">
+            <mat-label>Choose category</mat-label>
+            <mat-select [(ngModel)]="geoAndTimeQuery.category" name="category">
+              <mat-option>ALL</mat-option>
+              <mat-option *ngFor="let cat of categories" [value]="cat">
+                {{cat}}
               </mat-option>
             </mat-select>
           </mat-form-field>

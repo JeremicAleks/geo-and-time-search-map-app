@@ -9,10 +9,13 @@ import {PageableRequest} from "../model/pageable-request.model";
 
 const EVENTSTORAGE = "eventStorage";
 
+const categories = ["SPORTS","MUSIC","VISUAL_ARTS","PERFORMING_ARTS","FILM","LECTURES_AND_BOOK","FASHION","FOOD_AND_DRINK","FESTIVALS_AND_FAIRS","CHARITIES","KIDS_AND_FAMILY","OTHER"];
+
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
+
 
   event:EventDTO = new EventDTO();
 
@@ -69,6 +72,11 @@ export class EventService {
     window.localStorage.removeItem(EVENTSTORAGE);
     window.localStorage.setItem(EVENTSTORAGE, JSON.stringify(model));
   }
+
+  getCategories(){
+    return categories;
+  }
+
 
 
 

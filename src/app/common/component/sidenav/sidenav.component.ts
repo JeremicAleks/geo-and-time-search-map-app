@@ -133,6 +133,7 @@ export class SidenavComponent implements AfterViewInit,OnInit {
 
   simpleQuery: SimpleQueryModel = new SimpleQueryModel();
   geoAndTimeQuery: GeoAndTimeQuery = new GeoAndTimeQuery();
+  categories : string[] = [];
 
   resultData: ResultData = new ResultData();
 
@@ -184,6 +185,7 @@ export class SidenavComponent implements AfterViewInit,OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
+    this.categories = this.eventService.getCategories();
   }
 
 
