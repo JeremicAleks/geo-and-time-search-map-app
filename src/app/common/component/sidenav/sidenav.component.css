@@ -1,0 +1,119 @@
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 10px;
+}
+
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+}
+
+#map {
+  height: 100%;
+}
+
+.event-panel {
+  position: fixed;
+  left: 0;
+  width: 25rem;
+  height: 100%;
+  border: 5px solid red;
+  background-color: red;
+}
+
+
+.container-header {
+  position: relative;
+}
+
+  .container-main {
+    position: relative;
+    height: 84vh
+
+  }
+
+.main-panel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+}
+
+.event-sidebar {
+  background-color: var(--background-color);
+  width: 20rem;
+}
+
+.back-btn {
+  float: right;
+  position: fixed;
+  z-index: 3000;
+  margin-left: 15rem;
+
+}
+.cards {
+  /*position: relative;*/
+  /*border: 5px solid red;*/
+}
+
+.main-image {
+  width: 17rem;
+  height: 20rem;
+}
+
+.title-label {
+  position: relative;
+  font-size: 3rem;
+}
+
+.category-label {
+  position: relative;
+  font-size: 1rem;
+}
+
+.address-label{
+  position: relative;
+}
+
+.site-label {
+  position: relative;
+}
+
+.phone-label {
+  position: relative;
+}
+
+.description-label {
+
+}
+
+.userInfo {
+  margin-left: auto;
+}
+
+.alignCenter {
+  margin: auto;
+}
+
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .alignCenter {
+    margin: 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+
+

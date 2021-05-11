@@ -1,0 +1,112 @@
+<mat-card>
+  <mat-card-title><button mat-button routerLink="/admin/event" class="btn btn-back"></button></mat-card-title>
+</mat-card>
+<form #addEventForm="ngForm">
+  <mat-card class="card-event-container mat-elevation-z8">
+    <mat-card-title class="card-event-title event-text"> Event</mat-card-title>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name"
+             name="name"
+             #name="ngModel"
+             [(ngModel)]="eventDTO.name"
+             type="text" class="form-control">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="category">Category</label>
+        <select [(ngModel)]="eventDTO.category" name="category" id="category" class="form-control">
+          <option> SPORTS</option>
+          <option> MUSIC</option>
+          <option> VISUAL_ARTS</option>
+          <option> PERFORMING_ARTS</option>
+          <option> FILM</option>
+          <option> LECTURES_AND_BOOK</option>
+          <option> FASHION</option>
+          <option> FOOD_AND_DRINK</option>
+          <option> FESTIVALS_AND_FAIRS</option>
+          <option> CHARITIES</option>
+          <option> KIDS_AND_FAMILY</option>
+          <option> OTHER</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="tag">Tag</label>
+        <input type="text" id="tag" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="date">Date:</label>
+        <input type="date"
+               #eventDate="ngModel"
+               name="eventDate"
+               (ngModelChange)="updateDate($event)"
+               [ngModel]="eventDTO.eventDate | date:'yyyy-MM-dd'"
+               id="date" class="form-control">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description"
+                #description="ngModel"
+                name="description"
+                [(ngModel)]="eventDTO.description"
+                type="text" class="form-control"></textarea>
+    </div>
+
+  </mat-card>
+  <mat-card  class="card-event-container mat-elevation-z8">
+
+    <mat-card-title class="venue-text card-event-title">Venue</mat-card-title>
+
+    <div class="form-group">
+      <label for="nameVenue">Name</label>
+      <input id="nameVenue" type="text" class="form-control">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="city">City</label>
+        <input id="city" name="city" [(ngModel)]="simpleQuery.value" type="text" class="form-control">
+      </div>
+      <div class="form-group col-md-2"></div>
+      <div class="form-group col-md-2">
+        <label>&nbsp;</label>
+        <button (click)="find(simpleQuery)" class="btn btn-info form-control">Find</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label for="lat">Latitude</label>
+          <input disabled id="lat" name="lat" [(ngModel)]="eventDTO.lat" #lat="ngModel" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+          <label for="lon">Longitude</label>
+          <input disabled id="lon" name="lon" [(ngModel)]="eventDTO.lon" #lon="ngModel" class="form-control" type="text">
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="map-container-form">
+          <div class="map-frame">
+            <div id="mapUpdate"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="card-event-container">
+    <mat-card-actions align="end">
+      <button mat-button routerLink="/admin/event" class="btn btn-danger" >Cancel</button>
+      <button (click)="updateEvent(eventDTO)" mat-button class="btn btn-success" >Update</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card style="margin-top: 10px"></mat-card>
+</form>
+

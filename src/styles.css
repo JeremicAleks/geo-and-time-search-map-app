@@ -1,1 +1,471 @@
-/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --background-color: #ffffff;
+  --background-color-button-menu-hover: #a1a1a1;
+  --header-color: #251b1b95;
+  --input-border: 0.05rem solid #8d8d8d;
+  --input-focus-border: 0.05rem solid #6b6b6b;
+  --warning-popup-text-color: #000000;
+  --warning-popup-bg-color: #dfdfdf;
+  --link-color: #00008a;
+  --shadow-color: #b4b4b4;
+  --shadow: 0 0.4rem 0.8rem 0 var(--shadow-color),
+  0 0.1rem 2rem 0 var(--shadow-color);
+  --footer-color: #5f6060;
+  --table-border: 0.04rem solid #d1d1d1;
+  --selected-item-color: #d1d1d1;
+  --disabled-row-color: #f7f7f7;
+  --dark-border: 0.08rem solid #3a3a3a;
+  --medium-border: 0.05rem solid #dee2e6;
+  --light-border: 0.01rem solid #f7f7f7;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/*Overlay*/
+#container  {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#navi,
+#infoi {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#infoi {
+  z-index: 10;
+}
+
+
+
+/*Overlay*/
+
+/*SIDENAV*/
+
+.mat-sidenav-container{
+  height: 100%;
+}
+
+.mat-sidenav, mat-sidenav-container {
+  padding: 5px;
+}
+
+.mat-sidenav {
+  background-color: #ffffff;
+  width: 12rem;
+}
+
+/*SIDENAV*/
+
+
+.btn {
+  color: var(--background-color);
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  min-width: 3rem;
+  padding: 0 1rem;
+  line-height: 2.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.2rem;
+  margin: 0.2rem;
+}
+
+.btn-rounded {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 25%;
+  margin: 0 0.2rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-hamburger {
+  background-color: var(--background-color) ;
+}
+.btn-hamburger:before {
+  content: url("assets/menu.ico");
+  /*background-color: var(--background-color);*/
+}
+.btn-hamburger:hover{
+  background-color: var(--background-color-button-menu-hover);
+}
+
+.btn-back {
+  background-color: var(--background-color);
+}
+
+.btn-back:before {
+  content: url("assets/back.ico");
+}
+
+.btn-close {
+  background-color: var(--background-color);
+}
+
+.btn-close:before {
+  content: url("assets/x-mark-16.ico");
+}
+
+
+
+/* FORMS */
+.form-container {
+  display: grid;
+  justify-content: center;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 10rem 20rem;
+  row-gap: 0.2rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper,
+.input-field,
+.form-submit,
+.form-textarea,
+.form-dropdown,
+.dp-picker-input,
+.dp-input-container,
+.check-box,
+.switch-component {
+  grid-column: 2 / 3;
+}
+
+.input-wrapper,
+.input-field,
+.form-submit,
+.form-textarea,
+.form-submit,
+.check-box,
+.form-dropdown {
+  justify-self: stretch;
+}
+
+.input-field,
+.form-textarea,
+.form-dropdown,
+.date-field .dp-picker-input {
+  align-self: stretch;
+  width: 18rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border: var(--input-border);
+}
+
+.form-submit {
+  justify-self: start;
+}
+
+.form-label,
+.form-label-textarea {
+  grid-column: 1 / 2;
+  justify-self: start;
+  padding-left: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--header-color);
+}
+
+.form-label {
+  align-self: center;
+}
+
+.form-label-textarea {
+  align-self: flex-start;
+  padding-top: 0.2rem;
+}
+
+.input-field:focus {
+  border: var(--input-focus-border);
+}
+
+.invalid-field {
+  font-size: 0.8rem;
+  position: absolute;
+  bottom: -1.7rem;
+  left: 0.2rem;
+  z-index: 10;
+  color: var(--warning-popup-text-color);
+  border-radius: 0.1rem;
+  pointer-events: none;
+  padding: 0.4rem;
+  background-color: var(--warning-popup-bg-color);
+}
+
+.invalid-field:before {
+  content: "";
+  width: 0;
+  height: 0;
+  top: -0.5rem;
+  position: absolute;
+  left: 0.5rem;
+  border-left: 0.5rem solid var(--background-color);
+  border-right: 0.5rem solid var(--background-color);
+  border-bottom: 0.5rem solid var(--warning-popup-bg-color);
+}
+
+.db-input-container {
+  padding: 0;
+}
+
+.date-field.dp-material .dp-picker-input {
+  box-sizing: border-box;
+  width: 18rem;
+  font-size: 1rem;
+  outline: 0;
+  padding: 2rem;
+}
+
+.date-field.dp-material {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.date-field {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+.dp-input-container {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+@media (max-width: 30.5rem) {
+  .form-grid,
+  .form-label,
+  .input-field,
+  .input-wrapper,
+  .form-label-textarea,
+  .form-textarea {
+    display: block;
+  }
+  .form-label,
+  .form-label-textarea {
+    margin: 0.5rem 0 0.1rem 0;
+    padding-left: 0;
+  }
+
+  .table-row {
+    overflow: scroll;
+  }
+
+  .btn-pdf {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .btn-simulate {
+    margin-top: 1rem;
+    width: 100%;
+    float: left;
+  }
+}
+
+.switch-component {
+  color: var(--link-color);
+  cursor: pointer;
+}
+
+
+/*Card*/
+
+.event-text {
+  background-color: var(--background-color);
+}
+.event-text:before {
+  content: url("assets/calendar.ico");
+  background-color: var(--background-color);
+}
+
+.venue-text {
+  background-color: var(--background-color);
+}
+.venue-text:before {
+  content: url("assets/pin.ico");
+  background-color: var(--background-color);
+}
+
+.card-event-container {
+  margin-top: 2em;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+
+.card-event-container-venue {
+  margin: 2em 10em 10em;
+}
+
+.card-event-title {
+  border-bottom: 1px solid #000000;
+}
+
+/*EXPANSION PANEL*/
+
+
+
+
+
+/* TABLES */
+.table-style {
+  min-width: 100%;
+  border-collapse: collapse;
+  box-shadow: var(--shadow);
+}
+
+.table-row {
+  border-bottom: var(--table-border);
+  position: relative;
+}
+
+.description-tooltip {
+  visibility: hidden;
+  position: absolute;
+  min-width: 10rem;
+  max-width: 30rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--footer-color);
+  color: var(--background-color);
+}
+
+.table-field:hover + span.description-tooltip {
+  visibility: visible;
+}
+
+.table-header {
+  color: var(--header-color);
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 700;
+  border-bottom: var(--table-border);
+  padding-left: 1rem;
+  height: 4rem;
+  cursor: pointer;
+}
+
+.table-field-email {
+  max-width: 5rem;
+  max-height: 4rem;
+  font-size: 1rem;
+  height: 4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0rem 1.5rem;
+  cursor: pointer;
+}
+
+.table-field-description {
+  max-width: 5rem;
+  max-height: 4rem;
+  font-size: 1rem;
+  height: 4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0rem 1.5rem;
+  cursor: pointer;
+}
+
+.table-field {
+  font-size: 1rem;
+  height: 4rem;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+.inactiverow {
+  background-color: #ff000033;
+}
+
+.activerow {
+  background-color: var(--selected-item-color) !important;
+}
+
+.table-field-disabled {
+  background-color: var(--disabled-row-color);
+  cursor: no-drop;
+}
+
+@media screen and (max-width: 35rem) {
+  .table-style,
+  .table-row,
+  .table-field {
+    display: block;
+  }
+
+  .table-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-field {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+  }
+
+  .table-style {
+    border: none;
+    width: 100%;
+  }
+
+  .table-head {
+    display: none;
+  }
+
+  .table-row {
+    border: var(--dark-border);
+    border-radius: 0.2rem;
+    margin: 0.1rem 0;
+    min-width: 13.5rem;
+    max-width: 37rem;
+  }
+
+  .table-field {
+    border: var(--light-border);
+    white-space: normal;
+    overflow: visible;
+    max-width: none;
+    max-height: none;
+    height: 4rem;
+  }
+
+  .table-row-disabled {
+    display: none;
+  }
+}
+
+.description-tooltip {
+  visibility: hidden;
+  position: absolute;
+  min-width: 10rem;
+  max-width: 30rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--footer-color);
+  color: var(--background-color);
+}
+
+.table-field:hover + span.description-tooltip {
+  visibility: visible;
+}
+
+

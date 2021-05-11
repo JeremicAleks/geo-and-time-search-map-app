@@ -1,0 +1,72 @@
+<table class="table-style" >
+  <thead class="table-head">
+  <tr class="table-row">
+    <th class="table-header">#</th>
+    <th class="table-header" scope="col">
+      Name
+    </th>
+    <th
+      class="table-header"
+      scope="col"
+    >
+      Description
+    </th>
+    <th></th>
+    <th
+      class="table-header"
+      scope="col"
+    >
+      Date
+    </th>
+    <th class="table-header" scope="col">Lat</th>
+    <th class="table-header" scope="col">
+      Lon
+    </th>
+    <th class="table-header"></th>
+  </tr>
+  </thead>
+  <tbody class="table-body">
+  <tr
+    class="table-row"
+    *ngFor="let event of eventData.events; index as i"
+  >
+    <td class="table-field">{{this.pageIndex*this.pageSize+i+1}}</td>
+    <td class="table-field">{{event.name}}</td>
+    <td class="table-field-description table-field">{{event.description}}</td>
+    <span class="description-tooltip"> {{event.description}}</span>
+    <td class=" table-field">
+      {{event.eventDate | date: 'medium': "UTC+1"}}
+    </td>
+    <td class="table-field">{{event.lat}}</td>
+    <td class="table-field">{{event.lon}}</td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="requestEventsTable"
+        (click)="approveEventClicked(event,i)"
+      >Approved</button>
+    </td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="eventTable"
+        (click)="updateEventClicked(event)"
+      >Update</button>
+    </td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="eventTable"
+        (click)="deleteEventClicked(event,i)"
+      >Delete</button>
+    </td>
+  </tr>
+<!--  <tr class="table-row table-row-disabled" *ngFor="let j of 10">-->
+<!--    <td class="table-field table-field-disabled">{{ j }}</td>-->
+<!--    <td-->
+<!--      class="table-field table-field-disabled table-center"-->
+<!--      colspan="6"-->
+<!--    ></td>-->
+<!--  </tr>-->
+  </tbody>
+</table>

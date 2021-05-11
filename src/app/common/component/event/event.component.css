@@ -1,0 +1,18 @@
+.map-container-form {
+  height: 20em;
+}
+
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+}
+
+#mapFind {
+  height: 100%;
+}
+
+.accordion-book-container .mat-form-field+.mat-form-field {
+  margin-left: 10em;
+  margin-right: 10em;
+}
+

@@ -1,0 +1,54 @@
+<table class="table-style" >
+  <thead class="table-head">
+  <tr class="table-row">
+    <th class="table-header">#</th>
+    <th class="table-header" scope="col">
+      First Name
+    </th>
+    <th
+      class="table-header"
+      scope="col"
+    >
+     Last Name
+    </th>
+    <th
+      class="table-header"
+      scope="col"
+    >
+      Email
+    </th>
+    <th class="table-header" scope="col">
+      Username
+    </th>
+    <th class="table-header"></th>
+  </tr>
+  </thead>
+  <tbody class="table-body">
+  <tr
+    class="table-row"
+    *ngFor="let user of userData.users; index as i"
+  >
+    <td class="table-field">{{this.pageIndex*this.pageSize+i+1}}</td>
+    <td class="table-field">{{user.firstName}}</td>
+    <td class="table-field">{{user.lastName}}</td>
+    <td class=" table-field">
+      {{user.email}}
+    </td>
+    <td class="table-field">{{user.username}}</td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="requestUserTable"
+        (click)="enableUserClicked(user,i)"
+      >Enabled</button>
+    </td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="userTable"
+        (click)="disableUserClicked(user,i)"
+      >Disable</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

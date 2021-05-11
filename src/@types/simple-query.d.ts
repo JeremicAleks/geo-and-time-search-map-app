@@ -1,0 +1,3 @@
+interface ISimpleQuery {
+  value: string;
+}
