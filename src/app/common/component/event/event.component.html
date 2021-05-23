@@ -21,6 +21,8 @@
         <option> MUSIC</option>
         <option> VISUAL_ARTS</option>
         <option> PERFORMING_ARTS</option>
+        <option> MUSEUM</option>
+        <option> TOURIST_ATTRACTION</option>
         <option> FILM</option>
         <option> LECTURES_AND_BOOK</option>
         <option> FASHION</option>
@@ -46,7 +48,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="date">Date:</label>
-      <input type="date"
+      <input type="datetime-local"
              #eventDate="ngModel"
              name="eventDate"
              [(ngModel)]="addEvent.eventDate"
@@ -218,8 +220,7 @@
 
 
       </div>
-      <div class="col-md-6">
-      </div>
+      <div class="col-md-6"></div>
     </div>
 
 

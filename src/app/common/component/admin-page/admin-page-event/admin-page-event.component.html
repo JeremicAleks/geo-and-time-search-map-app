@@ -4,12 +4,14 @@
 
 <main role="main">
 
-  <section class="panel important">
+  <section class="panel important" *ngIf="authenticationService.isHeadAdmin()">
     <app-admin-page-event-navigation></app-admin-page-event-navigation>
   </section>
 
   <section class="panel important">
-    <app-admin-page-event-table [eventTable]="true" (updateEvent)="updateTable($event)" (deleteEvent)="deleteEvent($event)" [eventData]="eventList" [pageSize]="pageSize" [pageIndex]= "pageIndex"></app-admin-page-event-table>
+    <app-admin-page-event-table [eventTable]="true" (updateEvent)="updateTable($event)" (deleteEvent)="deleteEvent($event)" (changeImageEvent)="changeImage($event)"  [eventData]="eventList" [pageSize]="pageSize" [pageIndex]= "pageIndex"></app-admin-page-event-table>
+
+
     <mat-paginator [length]="length"
                    [pageSize]="pageSize"
                    [pageSizeOptions]="pageSizeOptions"

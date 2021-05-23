@@ -18,10 +18,11 @@
     >
       Date
     </th>
-    <th class="table-header" scope="col">Lat</th>
+    <th class="table-header" scope="col">Address</th>
     <th class="table-header" scope="col">
-      Lon
+      Category
     </th>
+    <th class="table-header" scope="col" *ngIf="authenticationService.isAdmin()">Approved?</th>
     <th class="table-header"></th>
   </tr>
   </thead>
@@ -35,10 +36,12 @@
     <td class="table-field-description table-field">{{event.description}}</td>
     <span class="description-tooltip"> {{event.description}}</span>
     <td class=" table-field">
-      {{event.eventDate | date: 'medium': "UTC+1"}}
+      {{event.eventDate | date: 'medium': "UTC"}}
     </td>
-    <td class="table-field">{{event.lat}}</td>
-    <td class="table-field">{{event.lon}}</td>
+    <td class="table-field">{{event.address}}</td>
+    <td class="table-field">{{event.categoryName}}</td>
+    <td class="table-field" *ngIf="event.approved && authenticationService.isAdmin()">Yes</td>
+    <td class="table-field" *ngIf="!event.approved && authenticationService.isAdmin()">No</td>
     <td class="table-field">
       <button
         class="btn btn-info"
@@ -52,6 +55,13 @@
         *ngIf="eventTable"
         (click)="updateEventClicked(event)"
       >Update</button>
+    </td>
+    <td class="table-field">
+      <button
+        class="btn btn-info"
+        *ngIf="eventTable"
+        (click)="changeImageClicked(event)"
+      >Images</button>
     </td>
     <td class="table-field">
       <button

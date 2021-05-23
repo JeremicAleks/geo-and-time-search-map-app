@@ -3,6 +3,7 @@ import {EventList} from "../../../../model/event-list.model";
 import {EventDTO} from "../../../../model/event.model";
 import {EventRequestEmitModel} from "../../../../model/event-request-emit.model";
 import {PageEvent} from "@angular/material/paginator";
+import {AuthenticationService} from "../../../../service/authentication.service";
 
 @Component({
   selector: 'app-admin-page-event-table',
@@ -20,12 +21,14 @@ export class AdminPageEventTableComponent implements OnInit {
   @Output() approveEvent : EventEmitter<EventRequestEmitModel>;
   @Output() updateEvent : EventEmitter<EventDTO>;
   @Output() deleteEvent: EventEmitter<EventRequestEmitModel>;
+  @Output() changeImageEvent : EventEmitter<EventDTO>;
 
 
-  constructor() {
+  constructor(public authenticationService: AuthenticationService) {
     this.approveEvent = new EventEmitter<EventRequestEmitModel>();
     this.updateEvent = new EventEmitter<EventDTO>();
     this.deleteEvent = new EventEmitter<EventRequestEmitModel>();
+    this.changeImageEvent = new EventEmitter<EventDTO>();
   }
 
   ngOnInit(): void {
@@ -47,5 +50,9 @@ export class AdminPageEventTableComponent implements OnInit {
     eventRequest.event = event;
     eventRequest.i = i;
     this.deleteEvent.emit(eventRequest);
+  }
+
+  changeImageClicked(event: EventDTO) {
+    this.changeImageEvent.emit(event);
   }
 }

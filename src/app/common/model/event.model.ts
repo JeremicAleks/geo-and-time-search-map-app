@@ -10,6 +10,7 @@ export class EventDTO {
   category: string;
   categoryName: string;
   address:string;
+  approved:boolean;
   webSite: string;
   phone: string;
   city: string;
@@ -37,5 +38,6 @@ export class EventDTO {
     this.bookingName = null;
     this.bookingPrice = 0;
     this.bookingUrl = null;
+    this.approved = false;
   }
 }

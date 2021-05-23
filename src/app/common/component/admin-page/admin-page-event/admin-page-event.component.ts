@@ -7,6 +7,7 @@ import {PageEvent} from "@angular/material/paginator";
 import {PageableRequest} from "../../../model/pageable-request.model";
 import {ToastrService} from "ngx-toastr";
 import {EventRequestEmitModel} from "../../../model/event-request-emit.model";
+import {AuthenticationService} from "../../../service/authentication.service";
 
 @Component({
   selector: 'app-admin-page-event',
@@ -20,14 +21,32 @@ export class AdminPageEventComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageIndex = 0;
   eventList: EventList = new EventList();
+  eventListAdmin: EventList = new EventList();
 
   constructor(private eventService: EventService,private router:Router,
-              private toastrService: ToastrService) { }
+              private toastrService: ToastrService,public authenticationService: AuthenticationService) { }
 
 
   ngOnInit(): void {
-    this.getAllApproved();
+    if(this.authenticationService.isHeadAdmin())
+      this.getAllApproved();
+    if(this.authenticationService.isAdmin())
+      this.getAllEventForAdmin();
   }
+
+  getAllEventForAdmin(){
+    let pageableRequest: PageableRequest = new PageableRequest();
+    pageableRequest.page= this.pageIndex;
+    pageableRequest.size= this.pageSize;
+    pageableRequest.flagFilter = true;
+    this.eventService.pageableGetEventUserUsername(pageableRequest).subscribe(
+      data => {
+        this.length  =data.totalElements;
+        this.eventList = data.eventListDTO;
+      }
+    )
+  }
+
 
   getAllApproved(){
     let pageableRequest: PageableRequest = new PageableRequest();
@@ -71,5 +90,10 @@ export class AdminPageEventComponent implements OnInit {
       }
     )
 
+  }
+
+  changeImage(event: EventDTO) {
+    this.eventService.saveEventInStorage(event);
+    this.router.navigate(['admin/event/images']);
   }
 }

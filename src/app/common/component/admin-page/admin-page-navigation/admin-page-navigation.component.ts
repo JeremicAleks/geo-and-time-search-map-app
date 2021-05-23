@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthenticationService} from "../../../service/authentication.service";
 
 @Component({
   selector: 'app-admin-page-navigation',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPageNavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authenticationService:AuthenticationService) { }
 
   ngOnInit(): void {
   }

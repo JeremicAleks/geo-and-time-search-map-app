@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
 import {MarkerService} from "./common/service/marker.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -39,11 +38,13 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSelectModule} from "@angular/material/select";
+import {IsHeadAdminGuard} from "./common/guard/isHeadAdmin.guard";
+import { ImageChangeComponent } from './common/component/event/image-change/image-change.component';
+import {PopupService} from "./common/service/popup.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
     SidenavComponent,
     EventComponent,
     AdminPageEventComponent,
@@ -57,6 +58,7 @@ import {MatSelectModule} from "@angular/material/select";
     AdminPageUserTableComponent,
     AdminPageUserNavigationComponent,
     AdminPageUserRequestsComponent,
+    ImageChangeComponent,
   ],
     imports: [
         BrowserModule,
@@ -80,13 +82,15 @@ import {MatSelectModule} from "@angular/material/select";
         MatPaginatorModule,
         NgbCarouselModule,
         MatExpansionModule,
-        MatSelectModule
+        MatSelectModule,
 
     ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:HttpTokenInterceptor,multi:true},
     MarkerService,
+    PopupService,
     AuthenticationGuard,
+    IsHeadAdminGuard,
     IsAdminGuard,
     IsUserGuard],
   bootstrap: [AppComponent]

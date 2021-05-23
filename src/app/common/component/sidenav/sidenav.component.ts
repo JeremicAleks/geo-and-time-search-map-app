@@ -12,114 +12,27 @@ import {TokenService} from "../../service/token.service";
 import {EventDTO} from "../../model/event.model";
 import {EventService} from "../../service/event.service";
 import {FormControl} from "@angular/forms";
-import {Observable, range} from "rxjs";
+import {Observable} from "rxjs";
 import {map, startWith} from 'rxjs/operators';
-import {GeoPoint} from "../../model/geo-point.model";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {PopupService} from "../../service/popup.service";
 
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
+const iconDefault = L.icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+L.Marker.prototype.options.icon = iconDefault;
 
-
-const musicIcon = L.icon({
-  iconUrl: "assets/map-icons/note.ico",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const bookIcon = L.icon({
-  iconUrl: "assets/map-icons/book.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const restaurantIcon = L.icon({
-  iconUrl: "assets/map-icons/food.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const sportIcon = L.icon({
-  iconUrl: "assets/map-icons/sport.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const filmIcon = L.icon({
-  iconUrl: "assets/map-icons/film.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const theatreIcon = L.icon({
-  iconUrl: "assets/map-icons/theater.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const artIcon = L.icon({
-  iconUrl: "assets/map-icons/art.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const fashionIcon = L.icon({
-  iconUrl: "assets/map-icons/fashion.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const festivalIcon = L.icon({
-  iconUrl: "assets/map-icons/festival.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-const charitiesIcon = L.icon({
-  iconUrl: "assets/map-icons/charities.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-
-const kidsIcon = L.icon({
-  iconUrl: "assets/map-icons/kids.png",
-  shadowUrl: 'assets/marker-shadow.png',
-  iconSize: [30, 36],
-  iconAnchor: [12, 21],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
 
 @Component({
   selector: 'app-sidenav',
@@ -169,13 +82,12 @@ export class SidenavComponent implements AfterViewInit,OnInit {
 
   constructor(private markerService: MarkerService, private geoSearch: GeoSearchService, private eventService: EventService,
               public authenticationService:AuthenticationService,private tokenService:TokenService,
-              private toastrService: ToastrService, private router: Router) { }
+              private toastrService: ToastrService, private router: Router,private popupService: PopupService) { }
 
   ngAfterViewInit(): void {
     this.initMap();
     this.layerGroup = L.layerGroup().addTo(this.map);
     this.map.invalidateSize();
-    // this.markerService.makeMaker(this.map);
   }
 
   ngOnInit() {
@@ -190,9 +102,18 @@ export class SidenavComponent implements AfterViewInit,OnInit {
 
 
   search(geoAndTimeQuery: GeoAndTimeQuery) {
-  this.mapSize = this.map.getSize();
+    if (geoAndTimeQuery.startDate === null){
+      geoAndTimeQuery.startDate = new Date();
+    }
 
     geoAndTimeQuery.cityName= this.myControl.value.name || this.myControl.value;
+
+    if(this.myControl.value.country !== undefined)
+      geoAndTimeQuery.countryName = this.myControl.value.country;
+
+    if (geoAndTimeQuery.category === "all"){
+      geoAndTimeQuery.category = null;
+    }
 
     this.geoSearch.geoAndTimeSearch(geoAndTimeQuery).subscribe(
       data => {
@@ -201,97 +122,32 @@ export class SidenavComponent implements AfterViewInit,OnInit {
           this.toastrService.error("City not found");
           return null;
         }
-        this.opened = true;
+        geoAndTimeQuery.countryName = "";
         this.resultDateEventList = this.resultData.resultDataEvents;
+        if(this.resultDateEventList.length === 0)
+          this.toastrService.info("No events","",{timeOut:5000});
+        this.opened = this.resultDateEventList.length > 0;
+        this.sortByDate();
         this.map.setView(new L.LatLng(this.resultData.geoPoint.lat,this.resultData.geoPoint.lon), 15);
-        let coordinates: ICoordinates[] = [];
-        // this.markerService.makeMarker(this.layerGroup,this.resultData.resultDataEvents);
         this.layerGroup.clearLayers();
         for(const event of this.resultData.resultDataEvents) {
           const lat = event.geoPoint.lat;
           const lng = event.geoPoint.lon;
-          if(event.category === 'MUSIC' ) {
-            const marker = L.marker([lat, lng],{icon:musicIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
+          const marker = L.marker([lat, lng],{icon:this.markerService.getMarkerIcon(event.category)});
+          marker.bindPopup(this.popupService.createPopup(event));
+          marker.on('mouseover',function (e){
+            this.openPopup();
+          });
+          marker.on('mouseout',function (e){
+            this.closePopup();
+          })
+            marker.addTo(this.layerGroup).on('click',function (e) {
+              this.eventIsClicked(e, event);
             },this);
-          }else if(event.category === 'PERFORMING_ARTS' ) {
-            const marker = L.marker([lat, lng],{icon:theatreIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'FILM' ) {
-            const marker = L.marker([lat, lng],{icon:filmIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'LECTURES_AND_BOOK' ) {
-            const marker = L.marker([lat, lng],{icon:bookIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'FOOD_AND_DRINK' ) {
-            const marker = L.marker([lat, lng],{icon:restaurantIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'SPORTS' ) {
-            const marker = L.marker([lat, lng],{icon:sportIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'VISUAL_ARTS' ) {
-            const marker = L.marker([lat, lng],{icon:artIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'FASHION' ) {
-            const marker = L.marker([lat, lng],{icon:fashionIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'FESTIVALS_AND_FAIRS' ) {
-            const marker = L.marker([lat, lng],{icon:festivalIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'CHARITIES' ) {
-            const marker = L.marker([lat, lng],{icon:charitiesIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else if(event.category === 'KIDS_AND_FAMILY' ) {
-            const marker = L.marker([lat, lng],{icon:kidsIcon});
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }else{
-            const marker = L.marker([lat, lng]);
-            marker.addTo(this.layerGroup).on('click',function (e){
-              this.eventIsClicked(e,event);
-            },this);
-          }
+
         }
       }
     )
-
-
-    // this.geoSearch.findCity(simpleQuery).subscribe(
-    //   data=>{
-    //   this.resultCity = data;
-    //     this.map.setView(new L.LatLng(this.resultCity.geoPoint.lat,this.resultCity.geoPoint.lon), 15);
-    // },error => {
-    //     console.log(error);
-    //   })
-
-    // let coordinates: ICoordinates[] = [];
-    // for(const event of resultData.events){
-    //   let c:ICoordinates = { lat:0 , lng: 0};
-    //   c.lng=event.lng;
-    //   c.lat=event.lat;
-    //   coordinates.push(c);
-    // }
-    // this.markerService.makeMaker(this.layerGroup,coordinates);
   }
 
   eventIsClicked(e, eventData: ResultDataEvent) {
@@ -361,4 +217,20 @@ export class SidenavComponent implements AfterViewInit,OnInit {
   handleOnShown() {
     this.map.invalidateSize();
   }
+
+
+  bookNow(eventDTO: EventDTO) {
+    window.open(eventDTO.bookingUrl, "_blank");
+  }
+
+  private getTimeFromDate(date?: Date){
+    return date != null ? new Date(date).getTime() : new Date('2100-1-1').getTime();
+  }
+
+  public sortByDate(): void {
+   this.resultDateEventList =  this.resultDateEventList.slice().sort((a,b)=> {
+      return this.getTimeFromDate(a.eventDate) - this.getTimeFromDate(b.eventDate);
+    })
+  }
+
 }

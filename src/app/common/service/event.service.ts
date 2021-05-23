@@ -9,7 +9,7 @@ import {PageableRequest} from "../model/pageable-request.model";
 
 const EVENTSTORAGE = "eventStorage";
 
-const categories = ["SPORTS","MUSIC","VISUAL_ARTS","PERFORMING_ARTS","FILM","LECTURES_AND_BOOK","FASHION","FOOD_AND_DRINK","FESTIVALS_AND_FAIRS","CHARITIES","KIDS_AND_FAMILY","OTHER"];
+const categories = ["SPORTS","MUSIC","VISUAL_ARTS","PERFORMING_ARTS","FILM","LECTURES_AND_BOOK","FASHION","FOOD_AND_DRINK","FESTIVALS_AND_FAIRS","CHARITIES","KIDS_AND_FAMILY","MUSEUM","TOURIST_ATTRACTION","OTHER"];
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +55,18 @@ export class EventService {
 
   public pageableGetEvent(pageableRequest:PageableRequest): Observable<any> {
     return this.http.post(environment.baseUrl+ 'api/event/pageable',pageableRequest);
+  }
+
+  public pageableGetEventUserUsername(pageableRequest:PageableRequest): Observable<any> {
+    return this.http.post(environment.baseUrl+ 'api/event/pageableUser',pageableRequest);
+  }
+
+  public getImagesFromEvent(id: number): Observable<any> {
+    return this.http.get(environment.baseUrl+'api/event/images/'+id);
+  }
+
+  public deleteImage(id:number): Observable<any> {
+    return this.http.delete(environment.baseUrl+'api/event/imageDelete/'+id);
   }
 
   public deleteEvent(id:number): Observable<any> {

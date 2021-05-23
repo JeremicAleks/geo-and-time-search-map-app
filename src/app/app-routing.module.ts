@@ -6,9 +6,11 @@ import {SidenavComponent} from "./common/component/sidenav/sidenav.component";
 import {AdminPageEventComponent} from "./common/component/admin-page/admin-page-event/admin-page-event.component";
 import {AdminPageEventRequestsComponent} from "./common/component/admin-page/admin-page-event/admin-page-event-requests/admin-page-event-requests.component";
 import {UpdateEventComponent} from "./common/component/event/update-event/update-event.component";
-import {IsAdminGuard} from "./common/guard/isAdmin.guard";
 import {AdminPageUserComponent} from "./common/component/admin-page/admin-page-user/admin-page-user.component";
 import {AdminPageUserRequestsComponent} from "./common/component/admin-page/admin-page-user/admin-page-user-requests/admin-page-user-requests.component";
+import {IsHeadAdminGuard} from "./common/guard/isHeadAdmin.guard";
+import {IsAdminGuard} from "./common/guard/isAdmin.guard";
+import {ImageChangeComponent} from "./common/component/event/image-change/image-change.component";
 
 
 const routes: Routes = [
@@ -35,12 +37,12 @@ const routes: Routes = [
   {
     path: 'admin/user',
     component: AdminPageUserComponent,
-    canActivate: [IsAdminGuard]
+    canActivate: [IsHeadAdminGuard]
   },
   {
     path: 'admin/event/requests',
     component: AdminPageEventRequestsComponent,
-    canActivate: [IsAdminGuard]
+    canActivate: [IsHeadAdminGuard]
 
   },
   {
@@ -51,6 +53,11 @@ const routes: Routes = [
   {
     path: 'admin/user/requests',
     component: AdminPageUserRequestsComponent,
+    canActivate: [IsHeadAdminGuard]
+  },
+  {
+    path: 'admin/event/images',
+    component: ImageChangeComponent,
     canActivate: [IsAdminGuard]
   }
 

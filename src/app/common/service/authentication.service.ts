@@ -21,6 +21,18 @@ export class AuthenticationService {
     return false;
   }
 
+  public isHeadAdmin(){
+    const jwtHelperService = new JwtHelperService();
+    const decodedToken = jwtHelperService.decodeToken(localStorage.getItem('token'));
+
+    if(decodedToken != null){
+      if(decodedToken.authorities[0] === 'HEAD_ADMIN') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public isAdmin() {
     const jwtHelperService = new JwtHelperService();
     const decodedToken = jwtHelperService.decodeToken(localStorage.getItem('token'));

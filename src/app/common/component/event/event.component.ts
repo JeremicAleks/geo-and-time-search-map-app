@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import * as L from "leaflet";
 import {SimpleQueryModel} from "../../model/simple-query.model";
 import {GeoSearchService} from "../../service/geo-search.service";
@@ -8,7 +8,6 @@ import {AddEvent} from "../../model/add-event.model";
 import {EventService} from "../../service/event.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {EventDTO} from "../../model/event.model";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ImgFileModel} from "../../model/img-file.model";
 
@@ -104,9 +103,6 @@ export class EventComponent implements AfterViewInit {
 
 
   onFileChanged(event) {
-    console.log(event.target.files);
-    // this.imagesURLs = [];
-    // this.selectedFiles = [];
       for(let i=0; i<event.target.files.length ; i++ ){
         let imgFile: ImgFileModel = new ImgFileModel();
         imgFile.imageUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(event.target.files[i]));

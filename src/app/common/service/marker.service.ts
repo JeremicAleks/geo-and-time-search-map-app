@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import * as L from "leaflet";
 import {ResultDataEvent} from "../model/result-data-event.model";
-import {EventService} from "./event.service";
 
 const musicIcon = L.icon({
   iconUrl: "assets/map-icons/note.ico",
@@ -14,7 +12,7 @@ const musicIcon = L.icon({
   shadowSize: [41, 41]
 });
 const bookIcon = L.icon({
-  iconUrl: "assets/map-icons/book.ico",
+  iconUrl: "assets/map-icons/book.png",
   shadowUrl: 'assets/marker-shadow.png',
   iconSize: [30, 36],
   iconAnchor: [12, 21],
@@ -23,7 +21,7 @@ const bookIcon = L.icon({
   shadowSize: [41, 41]
 });
 const restaurantIcon = L.icon({
-  iconUrl: "assets/map-icons/restaurant.ico",
+  iconUrl: "assets/map-icons/food.png",
   shadowUrl: 'assets/marker-shadow.png',
   iconSize: [30, 36],
   iconAnchor: [12, 21],
@@ -32,7 +30,7 @@ const restaurantIcon = L.icon({
   shadowSize: [41, 41]
 });
 const sportIcon = L.icon({
-  iconUrl: "assets/map-icons/soccer.ico",
+  iconUrl: "assets/map-icons/sport.png",
   shadowUrl: 'assets/marker-shadow.png',
   iconSize: [30, 36],
   iconAnchor: [12, 21],
@@ -41,7 +39,7 @@ const sportIcon = L.icon({
   shadowSize: [41, 41]
 });
 const filmIcon = L.icon({
-  iconUrl: "assets/map-icons/video.ico",
+  iconUrl: "assets/map-icons/film.png",
   shadowUrl: 'assets/marker-shadow.png',
   iconSize: [30, 36],
   iconAnchor: [12, 21],
@@ -50,7 +48,43 @@ const filmIcon = L.icon({
   shadowSize: [41, 41]
 });
 const theatreIcon = L.icon({
-  iconUrl: "assets/map-icons/theatre.ico",
+  iconUrl: "assets/map-icons/theater.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const artIcon = L.icon({
+  iconUrl: "assets/map-icons/art.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const fashionIcon = L.icon({
+  iconUrl: "assets/map-icons/fashion.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const festivalIcon = L.icon({
+  iconUrl: "assets/map-icons/festival.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const charitiesIcon = L.icon({
+  iconUrl: "assets/map-icons/charities.png",
   shadowUrl: 'assets/marker-shadow.png',
   iconSize: [30, 36],
   iconAnchor: [12, 21],
@@ -59,57 +93,93 @@ const theatreIcon = L.icon({
   shadowSize: [41, 41]
 });
 
+const kidsIcon = L.icon({
+  iconUrl: "assets/map-icons/kids.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const museumIcon = L.icon({
+  iconUrl: "assets/map-icons/museum.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+const touristIcon = L.icon({
+  iconUrl: "assets/map-icons/tourist.png",
+  shadowUrl: 'assets/marker-shadow.png',
+  iconSize: [30, 36],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
+
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
+const iconDefault = L.icon({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+  iconSize: [15, 21],
+  iconAnchor: [12, 21],
+  popupAnchor: [1, -34],
+  tooltipAnchor: [16, -28],
+  shadowSize: [41, 41]
+});
 @Injectable({
   providedIn: 'root'
 })
 export class MarkerService {
 
-  constructor(private http: HttpClient,public eventService:EventService) { }
+  constructor() { }
 
   makeMarker(layerGroup: L.LayerGroup,events:ResultDataEvent[]): void {
-    layerGroup.clearLayers();
-    for(const event of events) {
-      const lat = event.geoPoint.lat;
-      const lng = event.geoPoint.lon;
-      if(event.category === 'MUSIC' ) {
-        const marker = L.marker([lat, lng],{icon:musicIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else if(event.category === 'PERFORMING_ARTS' ) {
-        const marker = L.marker([lat, lng],{icon:theatreIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else if(event.category === 'FILM' ) {
-        const marker = L.marker([lat, lng],{icon:filmIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else if(event.category === 'LECTURES_AND_BOOK' ) {
-        const marker = L.marker([lat, lng],{icon:bookIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else if(event.category === 'FOOD_AND_DRINK' ) {
-        const marker = L.marker([lat, lng],{icon:restaurantIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else if(event.category === 'SPORTS' ) {
-        const marker = L.marker([lat, lng],{icon:sportIcon});
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }else{
-        const marker = L.marker([lat, lng]);
-        marker.addTo(layerGroup).on('click',function (e){
-          alert(event.description);
-        });
-      }
-    }
   }
 
+
+  getMarkerIcon(name: string) {
+
+    switch (name) {
+      case 'MUSIC':
+        return musicIcon;
+      case 'PERFORMING_ARTS':
+        return theatreIcon;
+      case 'FILM':
+        return filmIcon;
+      case 'LECTURES_AND_BOOK':
+        return bookIcon;
+      case 'FOOD_AND_DRINK':
+        return restaurantIcon;
+      case 'SPORTS':
+        return sportIcon;
+      case 'VISUAL_ARTS':
+        return artIcon;
+      case 'FASHION':
+        return fashionIcon;
+      case 'FESTIVALS_AND_FAIRS':
+        return festivalIcon;
+      case 'CHARITIES':
+        return charitiesIcon;
+      case 'KIDS_AND_FAMILY':
+        return kidsIcon;
+      case 'MUSEUM':
+        return museumIcon;
+      case 'TOURIST_ATTRACTION':
+        return touristIcon;
+      default:
+        return iconDefault;
+
+    }
+
+  }
 
 
 

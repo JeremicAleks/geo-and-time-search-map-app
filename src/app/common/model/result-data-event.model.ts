@@ -11,6 +11,8 @@ export class ResultDataEvent {
   webSite: string;
   phone: string;
   city: string;
+  date: string;
+  categoryName:string;
 
   constructor() {
     this.id = null;
@@ -23,5 +25,7 @@ export class ResultDataEvent {
     this.webSite = '';
     this.phone = '';
     this. city = '';
+    this.date = '';
+    this.categoryName= '';
   }
 }

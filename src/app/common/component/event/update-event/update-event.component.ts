@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {SimpleQueryModel} from "../../../model/simple-query.model";
 import {ResultCity} from "../../../model/result-city.model";
 import * as L from "leaflet";
@@ -59,7 +59,9 @@ export class UpdateEventComponent implements OnInit {
   }
 
 
-  find(simpleQuery: SimpleQueryModel) {
+  find(city: string) {
+    let simpleQuery: SimpleQueryModel = new SimpleQueryModel();
+    simpleQuery.value = city;
     this.geoSearch.findCity(simpleQuery).subscribe(
       data => {
         this.resultCity = data;
@@ -73,6 +75,9 @@ export class UpdateEventComponent implements OnInit {
 
   initUpdateEvent(){
     this.eventDTO = this.eventService.getEventFromStorage();
+    for(let i=0; i< this.eventDTO.images.length; i++) {
+      this.eventDTO.images[i].retrievedImage = 'data:image/jpeg;base64,' + this.eventDTO.images[i].picByte;
+    }
     this.map.setView(new LatLng(this.eventDTO.lat,this.eventDTO.lon),15);
     L.marker([this.eventDTO.lat,this.eventDTO.lon]).addTo(this.layerGroup);
   }
@@ -92,4 +97,5 @@ export class UpdateEventComponent implements OnInit {
   updateDate($event: any) {
     this.eventDTO.eventDate = new Date($event);
   }
+
 }

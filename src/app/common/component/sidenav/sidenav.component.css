@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,400italic);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css);
 
 .map-container {
   position: absolute;
@@ -68,7 +70,7 @@
 
 .title-label {
   position: relative;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .category-label {
@@ -78,17 +80,43 @@
 
 .address-label{
   position: relative;
+  background-color: var(--background-color);
+}
+.address-label:before {
+  content: url("src/assets/icons/address.png");
+  background-color: var(--background-color);
 }
 
 .site-label {
   position: relative;
+  background-color: var(--background-color);
+}
+.site-label:before {
+  content: url("src/assets/icons/www.png");
+  background-color: var(--background-color);
 }
 
 .phone-label {
   position: relative;
+  background-color: var(--background-color);
+}
+.phone-label:before {
+  content: url("src/assets/icons/phone-62-16.ico");
+  background-color: var(--background-color);
 }
 
+
 .description-label {
+position: relative;
+  background-color: var(--background-color);
+}
+.description-label:before {
+  content: url("src/assets/icons/description.png");
+  background-color: var(--background-color);
+}
+
+
+.book-label {
 
 }
 
@@ -98,6 +126,10 @@
 
 .alignCenter {
   margin: auto;
+}
+
+.border-event-panel{
+  border-bottom: 2px solid #000000;
 }
 
 @media (max-width: 800px) {

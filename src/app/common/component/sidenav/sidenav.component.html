@@ -1,13 +1,13 @@
 <mat-sidenav-container>
   <mat-sidenav class="event-sidebar" #sidenav mode="side" [(opened)]="opened" (closed)="handleOnShown()">
     <div class="list-group">
-      <a *ngFor="let eventResult of resultDateEventList" (click)="eventPanelClicked(eventResult)" class="list-group-item list-group-item-action">
+      <a *ngFor="let eventResult of resultDateEventList" (click)="eventPanelClicked(eventResult)" class="list-group-item list-group-item-action border-event-panel">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{eventResult.name}}</h5>
-          <small>{{eventResult.eventDate | date: 'medium': "UTC+1"}}</small>
+          <small>{{eventResult.eventDate | date: 'medium' : "UTC"}}</small>
         </div>
         <p class="mb-1">{{eventResult.description}}</p>
-        <small>{{eventResult.category}}</small>
+        <small>{{eventResult.categoryName}}</small>
       </a>
     </div>
   </mat-sidenav>
@@ -30,14 +30,14 @@
           </mat-card>
           <mat-card>
             <mat-card-content>
-              <div class="address-label">Address: {{eventDTO.address}} </div>
-              <div class="site-label">Web site: {{eventDTO.webSite}}</div>
-              <div class="phone-label">Phone: {{eventDTO.phone}} </div>
+              <div class="address-label"> {{eventDTO.address}} </div>
+              <div class="site-label"> {{eventDTO.webSite}}</div>
+              <div class="phone-label"> {{eventDTO.phone}} </div>
             </mat-card-content>
           </mat-card>
           <mat-card>
             <mat-card-content>
-              <div class="description-label">Description: {{eventDTO.description}}</div>
+              <div class="description-label"> {{eventDTO.description}}</div>
             </mat-card-content>
           </mat-card>
           <mat-card *ngIf="eventDTO.booking">
@@ -45,9 +45,9 @@
               Book event
             </mat-card-title>
             <mat-card-content>
-              <div class="description-label">{{eventDTO.bookingName}}</div>
-              <div class="description-label">Price: {{eventDTO.bookingPrice}}</div>
-              <button  class="description-label btn-info" > Book now</button>
+              <div class="book-label">{{eventDTO.bookingName}}</div>
+              <div class="book-label">Price: {{eventDTO.bookingPrice}}</div>
+              <button  class="book-label btn btn-info" (click)="bookNow(eventDTO)" > Find ticket</button>
             </mat-card-content>
           </mat-card>
 
@@ -98,7 +98,7 @@
           <mat-form-field appearance="legacy" class="mb-2 mr-sm-2">
             <mat-label>Choose category</mat-label>
             <mat-select [(ngModel)]="geoAndTimeQuery.category" name="category">
-              <mat-option>ALL</mat-option>
+              <mat-option value="all" >ALL</mat-option>
               <mat-option *ngFor="let cat of categories" [value]="cat">
                 {{cat}}
               </mat-option>
@@ -116,11 +116,12 @@
               {{authenticationService.getUsernameFromToken()}}
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+<!--              <button mat-menu-item>-->
+<!--                <mat-icon>person</mat-icon>-->
+<!--                <span>{{authenticationService.getUsernameFromToken()}}</span>-->
+<!--              </button>-->
+              <button mat-menu-item *ngIf="authenticationService.isHeadAdmin() || authenticationService.isAdmin() " routerLink="/admin/event">
                 <mat-icon>person</mat-icon>
-                <span>{{authenticationService.getUsernameFromToken()}}</span>
-              </button>
-              <button mat-menu-item *ngIf="authenticationService.isAdmin()" routerLink="/admin/event">
                 <span>Admin Panel</span>
               </button>
               <button mat-menu-item  routerLink="/event">
