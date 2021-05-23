@@ -1,0 +1,21 @@
+<nav class="navigation-bar">
+  <ul class="navigation-list">
+    <li class="nav-list-item">
+      <a
+        class="nav-link"
+        [routerLinkActive]="['active']"
+        [routerLink]="['/admin/user']"
+        [routerLinkActiveOptions]="{exact:true}"
+      >Users </a
+      >
+    </li>
+    <li class="nav-list-item">
+      <a
+        class="nav-link"
+        [routerLinkActive]="['active']"
+        [routerLink]="['/admin/user/requests']"
+      >Requested Users</a
+      >
+    </li>
+  </ul>
+</nav>

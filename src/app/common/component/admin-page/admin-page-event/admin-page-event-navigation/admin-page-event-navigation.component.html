@@ -1,0 +1,21 @@
+<nav class="navigation-bar">
+  <ul class="navigation-list">
+    <li class="nav-list-item">
+      <a
+        class="nav-link"
+        [routerLinkActive]="['active']"
+        [routerLink]="['/admin/event']"
+        [routerLinkActiveOptions]="{exact:true}"
+      >Events </a
+      >
+    </li>
+    <li class="nav-list-item">
+      <a
+        class="nav-link"
+        [routerLinkActive]="['active']"
+        [routerLink]="['/admin/event/requests']"
+      >Requested Events</a
+      >
+    </li>
+  </ul>
+</nav>

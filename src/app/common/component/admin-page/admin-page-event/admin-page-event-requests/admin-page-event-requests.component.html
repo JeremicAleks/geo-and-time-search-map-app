@@ -1,0 +1,27 @@
+<app-admin-page-header></app-admin-page-header>
+<app-admin-page-navigation></app-admin-page-navigation>
+
+<main role="main">
+
+  <section class="panel important">
+    <app-admin-page-event-navigation></app-admin-page-event-navigation>
+  </section>
+
+  <section class="panel important">
+    <app-admin-page-event-table
+      [eventData]="eventList"
+      [requestEventsTable]="true"
+      (approveEvent)="approveEvent($event)"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      (deleteEvent)="deleteEvent($event)"
+    ></app-admin-page-event-table>
+    <mat-paginator [length]="length"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="handlePageEvent($event)">
+    </mat-paginator>
+  </section>
+
+
+</main>

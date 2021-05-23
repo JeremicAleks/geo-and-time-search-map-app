@@ -1,0 +1,89 @@
+<mat-card>
+  <mat-card-title><button mat-button routerLink="/admin/event" class="btn btn-back"></button></mat-card-title>
+</mat-card>
+<form #addEventForm="ngForm">
+
+  <mat-card  class="card-event-container mat-elevation-z8">
+
+    <mat-card-title class="card-event-title">Images</mat-card-title>
+
+    <div class="container row">
+      <div >
+        <input type="file" class="form-control-file" (change)="onFileChanged($event)" multiple>
+
+        <div class="album py-5 bg-light">
+          <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              <div class="col" *ngFor="let imgFile of this.imgFiles ; index as i ">
+                <div class="card shadow-sm">
+                  <img class="bd-placeholder-img card-img-top" [src]="imgFile.imageUrl" height="200" width="200">
+                  <div class="card-body">
+                    <p class="card-text">{{imgFile.selectedFile.name}}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" (click)="deleteImageFromAdd(i)" class="btn btn-sm btn-outline-secondary">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+
+
+  </mat-card>
+
+  <mat-card class="card-event-container">
+    <mat-card-actions align="end">
+      <button mat-button routerLink="" class="btn btn-danger" >Cancel</button>
+      <button (click)="saveEvent(this.imgFiles)" mat-button class="btn btn-success" >Save</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card  class="card-event-container mat-elevation-z8">
+
+    <mat-card-title class="card-event-title">Images</mat-card-title>
+
+    <div class="container row">
+      <div >
+        <div class="album py-5 bg-light">
+          <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              <div class="col" *ngFor="let imgFile of this.imageList.images ; index as i ">
+                <div class="card shadow-sm">
+                  <img class="bd-placeholder-img card-img-top" [src]="imgFile.retrievedImage" height="200" width="200">
+                  <div class="card-body">
+                    <p class="card-text">{{imgFile.name}}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" (click)="deleteImage(imgFile,i)" class="btn btn-sm btn-outline-secondary">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+
+
+  </mat-card>
+
+  <mat-card style="margin-top: 10px"></mat-card>
+</form>
+

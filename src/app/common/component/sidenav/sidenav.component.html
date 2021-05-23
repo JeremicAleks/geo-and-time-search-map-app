@@ -1,0 +1,154 @@
+<mat-sidenav-container>
+  <mat-sidenav class="event-sidebar" #sidenav mode="side" [(opened)]="opened" (closed)="handleOnShown()">
+    <div class="list-group">
+      <a *ngFor="let eventResult of resultDateEventList" (click)="eventPanelClicked(eventResult)" class="list-group-item list-group-item-action border-event-panel">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{eventResult.name}}</h5>
+          <small>{{eventResult.eventDate | date: 'medium' : "UTC"}}</small>
+        </div>
+        <p class="mb-1">{{eventResult.description}}</p>
+        <small>{{eventResult.categoryName}}</small>
+      </a>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <mat-sidenav-container>
+      <mat-sidenav class="event-sidebar" mode="side"  [(opened)]="eventClicked" (closed)="handleOnShown()" >
+        <button class="btn btn-close back-btn" (click)="eventViewClose()"></button>
+        <div class="cards">
+          <mat-card>
+            <div *ngIf="eventDTO.images.length > 0">
+            <img class="main-image" [src]="eventDTO.images[0].retrievedImage" >
+            </div>
+          </mat-card>
+          <mat-card>
+            <mat-card-title>
+              <div class="title-label">{{eventDTO.name}}</div>
+              <div class="category-label">{{eventDTO.categoryName}}</div>
+            </mat-card-title>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="address-label"> {{eventDTO.address}} </div>
+              <div class="site-label"> {{eventDTO.webSite}}</div>
+              <div class="phone-label"> {{eventDTO.phone}} </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="description-label"> {{eventDTO.description}}</div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card *ngIf="eventDTO.booking">
+            <mat-card-title>
+              Book event
+            </mat-card-title>
+            <mat-card-content>
+              <div class="book-label">{{eventDTO.bookingName}}</div>
+              <div class="book-label">Price: {{eventDTO.bookingPrice}}</div>
+              <button  class="book-label btn btn-info" (click)="bookNow(eventDTO)" > Find ticket</button>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card>
+            <mat-card-content>
+              <ngb-carousel *ngIf="eventDTO.images.length>1">
+                <ng-template ngbSlide  *ngFor="let img of eventDTO.images | slice:1">
+                  <div class="picsum-img-wrapper">
+                    <img class="main-image" [src]="img.retrievedImage" alt="...">
+                  </div>
+
+                </ng-template>
+              </ngb-carousel>
+            </mat-card-content>
+
+          </mat-card>
+
+        </div>
+      </mat-sidenav>
+
+    <div class="main-panel">
+      <div class="container-header">
+        <div class="form-inline">
+          <button class="btn-rounded btn-hamburger mb-2" *ngIf="resultDateEventList.length>0" (click)="sidenav.toggle()" ></button>
+          <p>EVENT SEARCH MAP</p>
+        <form class="form-inline alignCenter"  (ngSubmit)="search(geoAndTimeQuery)">
+          <mat-form-field class="mb-2 mr-sm-2">
+            <mat-label>City name</mat-label>
+            <input (keyup)="findAllOptions()" name="cityName" type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option.name}},{{option.country}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="legacy" class="mb-2 mr-sm-2">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input name="startDate" matStartDate placeholder="Start date" [(ngModel)]="geoAndTimeQuery.startDate">
+              <input name="endDate" matEndDate placeholder="End date" [(ngModel)]="geoAndTimeQuery.endDate">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy" class="mb-2 mr-sm-2">
+            <mat-label>Choose category</mat-label>
+            <mat-select [(ngModel)]="geoAndTimeQuery.category" name="category">
+              <mat-option value="all" >ALL</mat-option>
+              <mat-option *ngFor="let cat of categories" [value]="cat">
+                {{cat}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </form>
+          <div class="userInfo" *ngIf="!authenticationService.isAuthenticated()">
+            <button mat-button routerLink="/login"><mat-icon>person</mat-icon> Login</button>
+          </div>
+          <div *ngIf="authenticationService.isAuthenticated()" class="userInfo">
+            <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>person</mat-icon>
+              {{authenticationService.getUsernameFromToken()}}
+            </button>
+            <mat-menu #menu="matMenu">
+<!--              <button mat-menu-item>-->
+<!--                <mat-icon>person</mat-icon>-->
+<!--                <span>{{authenticationService.getUsernameFromToken()}}</span>-->
+<!--              </button>-->
+              <button mat-menu-item *ngIf="authenticationService.isHeadAdmin() || authenticationService.isAdmin() " routerLink="/admin/event">
+                <mat-icon>person</mat-icon>
+                <span>Admin Panel</span>
+              </button>
+              <button mat-menu-item  routerLink="/event">
+                <mat-icon>event</mat-icon>
+                <span>Add event</span>
+              </button>
+              <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Logout</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+      </div>
+      <div class="container-main">
+        <div class="map-container">
+          <div class="map-frame">
+          <div id="map"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </mat-sidenav-container>
+
+  </mat-sidenav-content>
+
+
+</mat-sidenav-container>

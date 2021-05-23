@@ -1,0 +1,12 @@
+.map-container-form {
+  height: 20em;
+}
+
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+}
+
+#mapUpdate {
+  height: 100%;
+}

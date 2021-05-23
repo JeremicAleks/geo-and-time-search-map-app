@@ -1,0 +1,238 @@
+<mat-card>
+  <mat-card-title><button mat-button routerLink="" class="btn btn-back"></button></mat-card-title>
+</mat-card>
+<form #addEventForm="ngForm">
+<mat-card class="card-event-container mat-elevation-z8">
+  <mat-card-title class="card-event-title event-text"> Event</mat-card-title>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name"
+           name="name"
+           #name="ngModel"
+           [(ngModel)]="addEvent.name"
+           type="text" class="form-control">
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="category">Category Type:</label>
+      <select [(ngModel)]="addEvent.category" name="category" id="category" class="form-control">
+        <option> SPORTS</option>
+        <option> MUSIC</option>
+        <option> VISUAL_ARTS</option>
+        <option> PERFORMING_ARTS</option>
+        <option> MUSEUM</option>
+        <option> TOURIST_ATTRACTION</option>
+        <option> FILM</option>
+        <option> LECTURES_AND_BOOK</option>
+        <option> FASHION</option>
+        <option> FOOD_AND_DRINK</option>
+        <option> FESTIVALS_AND_FAIRS</option>
+        <option> CHARITIES</option>
+        <option> KIDS_AND_FAMILY</option>
+        <option> OTHER</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="categoryName">Category name:</label>
+      <input type="text"
+             id="categoryName"
+             #categoryName = "ngModel"
+             class="form-control"
+            [(ngModel)]="addEvent.categoryName"
+             name="categoryName"
+      >
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="date">Date:</label>
+      <input type="datetime-local"
+             #eventDate="ngModel"
+             name="eventDate"
+             [(ngModel)]="addEvent.eventDate"
+             id="date" class="form-control">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="phone">Phone:</label>
+      <input type="text"
+             #phone="ngModel"
+             name="phone"
+             [(ngModel)]="addEvent.phone"
+             id="phone" class="form-control">
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description"
+              #description="ngModel"
+              name="description"
+              [(ngModel)]="addEvent.description"
+              type="text" class="form-control"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="webSite">Web site</label>
+    <input id="webSite"
+              #webSite="ngModel"
+              name="webSite"
+              [(ngModel)]="addEvent.webSite"
+              type="text" class="form-control">
+  </div>
+
+</mat-card>
+<mat-card  class="card-event-container mat-elevation-z8">
+
+  <mat-card-title class="venue-text card-event-title">Venue</mat-card-title>
+
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input id="address"
+           #address="ngModel"
+           name="address"
+           [(ngModel)]="addEvent.address"
+           type="text" class="form-control">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+    <label for="city">City</label>
+    <input id="city" name="city" [(ngModel)]="addEvent.city" type="text" class="form-control">
+    </div>
+    <div class="form-group col-md-2"></div>
+    <div class="form-group col-md-2">
+      <label>&nbsp;</label>
+      <button (click)="find(addEvent.city)" class="btn btn-info form-control">Find</button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="form-group">
+        <label for="lat">Latitude</label>
+        <input disabled id="lat" name="lat" [(ngModel)]="addEvent.lat" #lat="ngModel" class="form-control" type="text">
+      </div>
+      <div class="form-group">
+        <label for="lon">Longitude</label>
+        <input disabled id="lon" name="lon" [(ngModel)]="addEvent.lon" #lon="ngModel" class="form-control" type="text">
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <div class="map-container-form">
+       <div class="map-frame">
+        <div id="mapFind"></div>
+       </div>
+      </div>
+    </div>
+  </div>
+  </mat-card>
+
+  <mat-card class="card-event-container mat-elevation-z8">
+    <mat-card-title class="card-event-title">Book event</mat-card-title>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Add book event information
+        </mat-panel-title>
+        <mat-panel-description>
+          Open this panel if you want to add book information
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="form-group row">
+        <div class="col-sm-2">Book info?</div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input" name="booking" type="checkbox" id="gridCheck1" [(ngModel)]="addEvent.booking">
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="ticketName">Name:</label>
+          <input type="text"
+                 #ticketName="ngModel"
+                 name="ticketName"
+                 [(ngModel)]="addEvent.bookingName"
+                 id="ticketName" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="ticketPrice">Price:</label>
+          <input type="text"
+                 #ticketPrice="ngModel"
+                 name="ticketPrice"
+                 [(ngModel)]="addEvent.bookingPrice"
+                 id="ticketPrice" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="urlReservation">Url for reservation:</label>
+        <input id="urlReservation"
+               name="bookInfo"
+               #urlReservation="ngModel"
+               [(ngModel)]="addEvent.bookingUrl"
+               type="text" class="form-control">
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  </mat-card>
+
+
+  <mat-card  class="card-event-container mat-elevation-z8">
+
+  <mat-card-title class="card-event-title">Images</mat-card-title>
+
+    <div class="container row">
+      <div >
+        <input type="file" class="form-control-file" (change)="onFileChanged($event)" multiple>
+
+<!--          <div *ngFor="let img of imagesURLs" class="image">-->
+<!--          <img [src]="img" height="200" width="200">-->
+<!--          </div>-->
+
+        <div class="album py-5 bg-light">
+          <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              <div class="col" *ngFor="let imgFile of this.imgFiles ; index as i ">
+                <div class="card shadow-sm">
+                  <img class="bd-placeholder-img card-img-top" [src]="imgFile.imageUrl" height="200" width="200">
+                  <div class="card-body">
+                    <p class="card-text">{{imgFile.selectedFile.name}}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <button type="button" (click)="deleteImage(i)" class="btn btn-sm btn-outline-secondary">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+
+
+  </mat-card>
+
+  <mat-card class="card-event-container">
+    <mat-card-actions align="end">
+      <button mat-button routerLink="" class="btn btn-danger" >Cancel</button>
+      <button (click)="saveEvent(addEvent)" mat-button class="btn btn-success" >Save</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card style="margin-top: 10px"></mat-card>
+</form>
+
